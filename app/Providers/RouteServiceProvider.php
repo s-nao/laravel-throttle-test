@@ -25,12 +25,8 @@ class RouteServiceProvider extends ServiceProvider
     {
         // Throttle定義
         RateLimiter::for('token', function (Request $request) {
-            $token = $request->bearerToken() ?? $request->ip();
-            $key = $token;
-        
-            $limit = Limit::perMinute(10)->by($key);
-        
-            return $limit;
+            $token = $request->bearerToken();
+            return Limit::perMinute(10)->by("api:{$token}");
         });
 
         // ルート読み込み（API用）

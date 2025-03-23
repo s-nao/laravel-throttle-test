@@ -45,6 +45,8 @@ services:
       MYSQL_ROOT_PASSWORD: root
     volumes:
       - mysql-data:/var/lib/mysql
+    networks:
+      - laravel-net
 
 volumes:
   mysql-data:
