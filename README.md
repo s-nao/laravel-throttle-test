@@ -9,22 +9,28 @@ LaravelのThrottleの動作を確認するコード
 
 ## アプリケーション起動
 
-dockerを使用
+① 環境変数ファイルをコピー
+```
+mv .env.example .env
+```
 
+
+② dockerの起動
 ```
 docker compose up -d
 ```
 
-
-起動したコンテナに入る
+③ 初期設定
 
 ```
-php artisan migrate
+docker compose exec app composer install
+docker compose exec app php artisan migrate
 ```
 
 ## サンプルコマンド
 
-トークンを登録
+### トークンを登録
+
 ```
 curl -X POST http://localhost:8080/api/token \                                                 
      -H "Content-Type: application/json" \
@@ -32,7 +38,17 @@ curl -X POST http://localhost:8080/api/token \
 ```
 
 
-トークンを使ってAPIを叩く
+### トークンを使ってAPIを叩く
+
 ```
-curl -H "Authorization: Bearer [token]" http://localhost:8080/api/test
+sh test_request.sh token count
+
+例)
+sh test_request.sh ekyddLioO3mdG1WeZSTTRjvlxvSMRD6D 10
+```
+
+### 作ったトークンを確認する
+
+```
+curl http://localhost:8080/api/admin/tokens
 ```
